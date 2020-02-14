@@ -1,0 +1,78 @@
+#Object Comparison
+---
+First make it clear that there is two type of variables: one which contains a primitive type are a given value in memory
+second type of variables which containing anon primitive type are given a reference in memory.
+
+We will understand with the help of examples:
+```
+let a=1;
+let b=1;
+console.log(a==b);   //true
+```
+
+```
+let a=1;
+let b=a; 
+console.log(a===b);  //true
+a=4;
+console.log(a===b);  //false
+```
+
+NOTE: In JavaScript, every primitive gets it’s own memory space when declared. When assigned a value, that value goes into the memory space.
+
+```
+let obj1= {one:1, two:2};
+let obj2= {one:1, two:2};
+console.log(obj1===obj2);   //false
+```
+When we are comparing , we are comparing memory locations which are different.
+NOTE:  Here variable obj1 and obj2 gets a reference . Each to a separate memory location.
+                                                                                           
+"The important thing to understand here is that the variables, obj1 and obj2 (which could be an Object, Array or Function) each contain only a reference to a location in memory. Not the value of the object."
+
+Note: We are not comparing values, we are comparing memory locations, which are different that's why we are getting false.
+
+```
+let myobj={
+    one:1
+};
+let newObj= myobj;
+console.log(newObj=== myobj);   //true
+```
+Above Example giving true because both variable is referring to the same memory location.
+```
+var obj1={one:1};
+var obj2={one:1};
+console.log(obj1===obj2);   //false
+console.log(Object.is(obj1,obj2));  //false
+obj3= obj1;
+console.log(Object.is(obj1,obj3));   //true
+```
+
+Object.is(obj1,obj2):   this method returns true  only if both reference variables has same referring value, otherwise  false.
+```
+var obj1={one:1};
+var obj2={one:1};
+obj1= JSON.stringify(obj1);   // changing object values in to strings
+obj2=JSON.stringify(obj2);    //same here
+console.log(obj1==obj2);     //true because now values are same
+console.log(obj1.one);       // undefined , u changed in to string, IDK why?
+```
+ Note:  After stringifying    you are comapring  strings  not  objects.
+ One More Example:
+```
+
+   const obj1 = {Name: "Rahim", City: 'Hyderabad', Country: "India" };
+   const obj2 = {Name: "Rahim", Country: "India", City: 'Hyderabad', };
+   document.write(JSON.stringify(obj1) === JSON.stringify(obj2));            //false
+
+```
+In above example ordering is different, as we are looking , it is giving false.
+So we can overcome this drawback, a javascript library lodash is introduced, It checks whether the key/value pairs are equal or nor not their order.
+```
+const obj1 = {Name: "Rahim", City: 'Hyderabad', Country: "India" };
+   const obj2 = {Name: "Rahim", Country: "India", City: 'Hyderabad', };
+   document.write(JSON.stringify(obj1) === JSON.stringify(obj2));    //false
+   document.write(_.isEqual(obj1, obj2));   //true
+```
+_.isEqual(obj1,obj2):   is a lodash function which comapre key/value pair even they are in same order or not
